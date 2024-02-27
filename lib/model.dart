@@ -1,65 +1,64 @@
-import 'dart:convert';
+class Feeds {
+  int id;
+  String displayName;
+  String? displayPhoto;
+  String placeName;
+  String text;
+  List<Media> media;
 
-class User {
-    int id;
-    String uid;
-    String password;
-    String firstName;
-    String lastName;
-    String username;
-    String email;
-    String avatar;
-    String gender;
-    String phoneNumber;
-    String socialInsuranceNumber;
-    DateTime dateOfBirth;
+  Feeds({
+    required this.displayName,
+    required this.displayPhoto,
+    required this.placeName,
+    required this.text,
+    required this.media,
+    required this.id,
+  });
 
-    User({
-        required this.id,
-        required this.uid,
-        required this.password,
-        required this.firstName,
-        required this.lastName,
-        required this.username,
-        required this.email,
-        required this.avatar,
-        required this.gender,
-        required this.phoneNumber,
-        required this.socialInsuranceNumber,
-        required this.dateOfBirth,
-    });
+  factory Feeds.fromJson(Map<String, dynamic> json) => Feeds(
+        id: json["postId"],
+        displayName: json["displayName"],
+        displayPhoto: json["displayPhoto"],
+        placeName: json["placeName"],
+        text: json["text"] ?? json["description"] ?? "",
+        media: List<Media>.from(json["media"].map((x) => Media.fromJson(x))),
+      );
+}
 
-    factory User.fromRawJson(String str) => User.fromJson(json.decode(str));
+class Media {
+  String url;
+  String type;
+  num width;
+  num height;
+  String? thumbnail;
 
-    String toRawJson() => json.encode(toJson());
+  Media({
+    required this.url,
+    required this.type,
+    required this.width,
+    required this.height,
+    required this.thumbnail,
+  });
 
-    factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        uid: json["uid"],
-        password: json["password"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        username: json["username"],
-        email: json["email"],
-        avatar: json["avatar"],
-        gender: json["gender"],
-        phoneNumber: json["phone_number"],
-        socialInsuranceNumber: json["social_insurance_number"],
-        dateOfBirth: DateTime.parse(json["date_of_birth"]),
-    );
+  factory Media.fromJson(Map<String, dynamic> json) => Media(
+        url: json["url"],
+        type: json["type"],
+        width: num.parse(json["width"]),
+        height: num.parse(json["height"]),
+        thumbnail: json["thumbnail"],
+      );
+}
 
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "uid": uid,
-        "password": password,
-        "first_name": firstName,
-        "last_name": lastName,
-        "username": username,
-        "email": email,
-        "avatar": avatar,
-        "gender": gender,
-        "phone_number": phoneNumber,
-        "social_insurance_number": socialInsuranceNumber,
-        "date_of_birth": "${dateOfBirth.year.toString().padLeft(4, '0')}-${dateOfBirth.month.toString().padLeft(2, '0')}-${dateOfBirth.day.toString().padLeft(2, '0')}",
-    };
+class Pagination {
+  int page;
+  int total;
+  int size;
+  String? path;
+
+  Pagination({
+    this.page = 1,
+    this.total = 100,
+    this.size = 20,
+    this.path,
+  });
 }

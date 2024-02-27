@@ -1,0 +1,115 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "2:6842210975242302255",
+      "lastPropertyId": "6:6626495438340767886",
+      "name": "LocalFeeds",
+      "properties": [
+        {
+          "id": "1:6849656226841093346",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:5668916395174767199",
+          "name": "displayName",
+          "type": 9
+        },
+        {
+          "id": "3:2092842999087627431",
+          "name": "displayPhoto",
+          "type": 9
+        },
+        {
+          "id": "4:8800629278587603283",
+          "name": "placeName",
+          "type": 9
+        },
+        {
+          "id": "5:3713086786215796248",
+          "name": "text",
+          "type": 9
+        },
+        {
+          "id": "6:6626495438340767886",
+          "name": "mediaId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:4498916877701305346",
+          "relationTarget": "LocalMedia"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:7340218775056737007",
+      "lastPropertyId": "7:1420899237334268681",
+      "name": "LocalMedia",
+      "properties": [
+        {
+          "id": "1:7569320867247223113",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2064100042573143533",
+          "name": "url",
+          "type": 9
+        },
+        {
+          "id": "3:1052037570686566775",
+          "name": "type",
+          "type": 9
+        },
+        {
+          "id": "4:8680927903050473233",
+          "name": "thumbnail",
+          "type": 9
+        },
+        {
+          "id": "5:6573163233639834849",
+          "name": "feedsId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "2:4001525891127492437",
+          "relationTarget": "LocalFeeds"
+        },
+        {
+          "id": "6:3183542519932033831",
+          "name": "width",
+          "type": 8
+        },
+        {
+          "id": "7:1420899237334268681",
+          "name": "height",
+          "type": 8
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:7340218775056737007",
+  "lastIndexId": "2:4001525891127492437",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [
+    1084981166761161020
+  ],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    385441659790065265,
+    3594963849072461618,
+    6434635452987160935,
+    482779788843750411,
+    8389050526172515694
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
