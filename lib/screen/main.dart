@@ -22,7 +22,10 @@ class _MainScreenState extends State<MainScreen>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 3, vsync: this)
+      ..addListener(() {
+        changeIndex(tabController.index);
+      });
   }
 
   void changeIndex(int index) {
