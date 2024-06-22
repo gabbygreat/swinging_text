@@ -48,7 +48,6 @@ abstract class NetworkService {
       data: data,
       cancelToken: cancelToken,
     );
-    log(a.data.toString());
     return a;
   }
 

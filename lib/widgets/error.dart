@@ -38,7 +38,10 @@ class _ErrorScreenState extends State<ErrorScreen> {
   }
 
   Widget _buildErrorMessage() {
-    final message = getError(error: widget.error);
+    final message = getError(
+      error: widget.error,
+      trace: widget.trace,
+    );
     return Text(message);
   }
 

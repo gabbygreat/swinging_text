@@ -19,31 +19,35 @@ class PlaneView extends StatelessView<PlaneScreen, PlaneController> {
             controller.airplaneHolder.value = value.toList();
           }
           return ValueListenableBuilder(
-              valueListenable: controller.airplaneHolder,
-              builder: (context, data, _) {
-                return SmartRefresher(
-                  controller: controller.refreshController,
-                  enablePullUp: true,
-                  onLoading: controller.onLoading,
-                  onRefresh: controller.onRefresh,
-                  child: data.isEmpty
-                      ? const EmptyScreen()
-                      : ListView.separated(
-                          padding: const EdgeInsets.only(top: 20),
-                          separatorBuilder: (context, index) => const Divider(),
-                          itemCount: data.length,
-                          itemBuilder: (context, index) {
-                            var item = data[index];
-                            return ListTile(
-                              title: Text(item.name),
-                              trailing: Image.network(
-                                item.airlineModel.logo,
-                              ),
-                            );
-                          },
-                        ),
-                );
-              });
+            valueListenable: controller.airplaneHolder,
+            builder: (context, data, _) {
+              return SmartRefresher(
+                controller: controller.refreshController,
+                enablePullUp: true,
+                onLoading: controller.onLoading,
+                onRefresh: controller.onRefresh,
+                child: data.isEmpty
+                    ? const EmptyScreen()
+                    : ListView.separated(
+                        padding: const EdgeInsets.only(top: 20),
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemCount: data.length,
+                        itemBuilder: (context, index) {
+                          var item = data[index];
+                          return ListTile(
+                            title: Text(item.name),
+                            leading: Image.network(
+                              item.airlineModel.logo,
+                            ),
+                            subtitle: Text(
+                              item.airlineModel.country,
+                            ),
+                          );
+                        },
+                      ),
+              );
+            },
+          );
         },
         error: (error, trace) {
           return ErrorScreen(
@@ -53,6 +57,9 @@ class PlaneView extends StatelessView<PlaneScreen, PlaneController> {
           );
         },
         loading: () {
+          return const CustomLoader();
+        },
+        reloading: () {
           return const CustomLoader();
         },
       ),

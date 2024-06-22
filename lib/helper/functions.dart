@@ -1,12 +1,19 @@
+import 'dart:developer';
+
+import 'package:flutter/foundation.dart';
 import 'package:learn/utils/utils.dart';
 
-String getError({required Object error}) {
+String getError({
+  required Object error,
+  required StackTrace trace,
+}) {
   if (error is DioException) {
     // Logging the error and stack trace for debugging purposes
-    debugPrint('${error.response}');
+    if (kDebugMode) {
+      log('${error.response}');
+    }
     if (error.response != null && error.response?.data is Map) {
       var err = CustomError.fromJson(error.response?.data);
-
       return err.message ?? 'Something went wrong';
     } else {
       if (error.type == DioExceptionType.connectionError) {
@@ -21,6 +28,10 @@ String getError({required Object error}) {
         return 'An unexpected error occurred.';
       }
     }
+  }
+  if (kDebugMode) {
+    log('$error');
+    log('$trace');
   }
   return 'Something went wrong';
 }
