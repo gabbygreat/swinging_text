@@ -1,71 +1,114 @@
-import 'package:learn/mine/controller.dart';
-import 'package:learn/mvc/controller.dart';
-import 'package:learn/mvc/view.dart';
-import 'package:learn/mvvm/view.dart';
-import 'package:learn/mvvm/viewmodel.dart';
+import 'package:flutter/material.dart';
 
-import 'utils/utils.dart';
+import 'component/circular_typography.dart';
+import 'component/list_color.dart';
 
-void main() {
-  runApp(const MyApp());
+void main(List<String> args) {
+  runApp(
+    const MaterialApp(
+      home: RotatingTextApp(),
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class RotatingTextApp extends StatefulWidget {
+  const RotatingTextApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<RotatingTextApp> createState() => _RotatingTextAppState();
 }
 
-class _MyAppState extends State<MyApp> with AutomaticKeepAliveClientMixin {
-  var model = CounterModel();
-  late CounterControllerMVC controller = CounterControllerMVC(model);
-  late CounterViewModel counterViewModel = CounterViewModel(model);
+class _RotatingTextAppState extends State<RotatingTextApp> {
+  ValueNotifier<Color> textColor = ValueNotifier(Colors.black);
+  bool showColorBoxes = false;
 
   @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    return MaterialApp(
-      theme: ThemeData(
-        useMaterial3: false,
-      ),
-      home: DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              'Planes',
-            ),
-            bottom: const TabBar(tabs: [
-              Tab(
-                text: 'MVVM',
-              ),
-              Tab(
-                text: 'MVC',
-              ),
-              Tab(
-                text: 'Mine',
-              ),
-            ]),
-          ),
-          body: TabBarView(
-            children: [
-              CounterView1(
-                viewModel: counterViewModel,
-              ),
-              CounterView2(
-                controller: controller,
-              ),
-              CounterScreen(
-                model: model,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  void dispose() {
+    textColor.dispose();
+    super.dispose();
+  }
+
+  toggleColorBox() {
+    showColorBoxes = !showColorBoxes;
+    setState(() {});
   }
 
   @override
-  bool get wantKeepAlive => true;
+  Widget build(BuildContext context) {
+    double width = MediaQuery.sizeOf(context).width / 2;
+    return Scaffold(
+      backgroundColor: const Color.fromRGBO(254, 254, 254, 1),
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(254, 254, 254, 1),
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: toggleColorBox,
+            icon: Icon(
+              showColorBoxes ? Icons.check : Icons.edit,
+            ),
+          )
+        ],
+      ),
+      body: ValueListenableBuilder(
+        valueListenable: textColor,
+        builder: (context, color, _) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    CircularTypograpgy(
+                      opacity: 2,
+                      radius: width * 0.45,
+                      fontSize: 12,
+                      textColor: color,
+                      duration: 3,
+                    ),
+                    CircularTypograpgy(
+                      opacity: 2,
+                      radius: width * 0.6,
+                      fontSize: 13,
+                      textColor: color,
+                      duration: 2,
+                    ),
+                    CircularTypograpgy(
+                      opacity: 4,
+                      radius: width * 0.75,
+                      fontSize: 14,
+                      textColor: color,
+                      duration: 3,
+                    ),
+                    CircularTypograpgy(
+                      opacity: 4,
+                      radius: width * 0.9,
+                      fontSize: 15,
+                      textColor: color,
+                      duration: 2,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 100,
+              ),
+              AnimatedOpacity(
+                opacity: showColorBoxes ? 1 : 0,
+                duration: const Duration(milliseconds: 700),
+                child: ListColors(
+                  selectedColor: color,
+                  onSelected: (color) => textColor.value = color,
+                ),
+              ),
+              const SizedBox(
+                height: 100,
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
 }
